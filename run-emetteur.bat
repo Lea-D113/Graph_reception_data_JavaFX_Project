@@ -1,0 +1,1 @@
+java --class-path bin sensor.Emetteur
