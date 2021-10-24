@@ -1,6 +1,5 @@
 package application;
 
-
 import java.io.IOException;
 import java.net.DatagramSocket;
 import java.text.SimpleDateFormat;
@@ -48,124 +47,126 @@ import javafx.scene.input.MouseEvent;
 //import Receveur.java;
 
 /**
- * Main class with a graphics windows, with tools bars and containing:
- * - a graph of data to show data sended (not working yet)
+ * Main class with a graphics windows, with tools bars and containing: - a graph
+ * of data to show data sended (not working yet)
+ * 
  * @author Léa D
  *
  */
-public class Main extends Application{
-	
+public class Main extends Application {
+
 	// initialization of the graphics window
-	public void start (Stage primaryStage) {
+	public void start(Stage primaryStage) {
 		try {
 			BorderPane root = new BorderPane();
 			root.setTop(createToolbar());
-			root.setBottom(createStatusbar()) ;
+			root.setBottom(createStatusbar());
 			root.setCenter(createMainContent());
-			Scene scene = new Scene (root, 800, 400);
-			//scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			Scene scene = new Scene(root, 800, 400);
+			// scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Demo JavaFX");
 			primaryStage.show();
-		} catch(Exception e) {e.printStackTrace();}
-	}
-	
-	// To create "object" in our graphics window
-	
-	private Node createToolbar() { // To create a tool bar with a button "New", "Open",
-		// a separation, and a button "Clean"
-		return new ToolBar(new Button("New"), new Button("Open"), new Separator(),new Button("Clean"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
-	private Node createStatusbar(){
-	HBox statusbar = new HBox(); //To create a bar with a text compartment for a Name (author name)
-	statusbar.getChildren().addAll(new Label("Name: "),
-		new TextField ( "  Mobydick  "));
-	return statusbar;
+	// To create "object" in our graphics window
+
+	private Node createToolbar() { // To create a tool bar with a button "New", "Open",
+		// a separation, and a button "Clean"
+		return new ToolBar(new Button("New"), new Button("Open"), new Separator(), new Button("Clean"));
+	}
+
+	private Node createStatusbar() {
+		HBox statusbar = new HBox(); // To create a bar with a text compartment for a Name (author name)
+		statusbar.getChildren().addAll(new Label("Name: "), new TextField("  Mobydick  "));
+		return statusbar;
 	}
 
 	// We add elements in our graphics window "scene"
-	private Node createMainContent() throws IOException{
-		Group g = new Group(); //To add each element in this group to show them
-		
+	private Node createMainContent() throws IOException {
+		Group g = new Group(); // To add each element in this group to show them
+
 		// Different type of predefined messages to send
 		String message1 = "Je cherche du miel...";
 		String message2 = "Bonjour! Comment allez-vous?";
 		String message3 = "Je veux du miel";
 		String message4 = "3.14;5.76";
 		/*
-		//Then we send messages to different machines (and it work!)
-		Emettor msgSend;
-		Emettor msgSend2;
-		try {
-			msgSend = new Emettor("10.10.24.113", 51802); // We define to whom (which IP adress and which port) we send our message
-			msgSend.send(message4); //for server Agustin // message send
-			//msgSend2 = new Emetteur("10.10.26.57", 63240);
-			//msgSend2 = new Emetteur("10.10.25.82", 65355);
-			//msgSend.envoi(message3); //for server Agustin (variable port)
-			//msgSend2.envoi( message4);
-			Thread.sleep(100); // we wait for a bit before closing the socket
-			msgSend.close();
-			//msgSend2.close();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
-		
-		
-		//Initialization of the receiver:
+		 * //Then we send messages to different machines (and it work!) Emettor msgSend;
+		 * Emettor msgSend2; try { msgSend = new Emettor("10.10.24.113", 51802); // We
+		 * define to whom (which IP adress and which port) we send our message
+		 * msgSend.send(message4); //for server Agustin // message send //msgSend2 = new
+		 * Emetteur("10.10.26.57", 63240); //msgSend2 = new Emetteur("10.10.25.82",
+		 * 65355); //msgSend.envoi(message3); //for server Agustin (variable port)
+		 * //msgSend2.envoi( message4); Thread.sleep(100); // we wait for a bit before
+		 * closing the socket msgSend.close(); //msgSend2.close(); } catch (IOException
+		 * e1) { // TODO Auto-generated catch block e1.printStackTrace(); } catch
+		 * (Exception e) { // TODO Auto-generated catch block e.printStackTrace(); }
+		 */
+
+		// Initialization of the receiver:
 		Receptor recepServor;
 		String dataToShow = null;
-		String dataTest = "3.14"; //Random initialization to not have a problem with a data = null
+		String dataTest = "3.14"; // Random initialization to not have a problem with a data = null
 		int it = 0;
-		//To do the graph
+		// To do the graph
 		GraphInRealTime lineChart = new GraphInRealTime("Time/s", "Grades", "Grades sended");
-		
-		//g.getChildren().add(lineChart); //test to see if the graph show even when the receiver run
-		// test fail, nothing change if this line is either before or after the lines to add data
-		
-		/*lineChart.addDataSended(dataTest);
-		while(it<10) {
-			//Integer randomt = ThreadLocalRandom.current().nextInt(10);
-			float randomt = ThreadLocalRandom.current().nextInt(10);
-			dataTest = Float.toString(randomt);
-			lineChart.addDataSended(dataTest); // I have several constant value this way?!?
-			it++;
-		}*/
+
+		// g.getChildren().add(lineChart); //test to see if the graph show even when the
+		// receiver run
+		// test fail, nothing change if this line is either before or after the lines to
+		// add data
+
+		/*
+		 * lineChart.addDataSended(dataTest); 
+		 * //Test of the GraphInRealTime alone with random data (float type) 
+		 * while (it < 10) { 
+		 * 		// Integer randomt = ThreadLocalRandom.current().nextInt(10); 
+		 * 		float randomt = ThreadLocalRandom.current().nextInt(10); 
+		 * 		dataTest = Float.toString(randomt);
+		 * 		lineChart.addDataSended(dataTest);
+		 * 		it++; 
+		 * }
+		 */
+
 		try {
 			recepServor = new Receptor(32); // We open our receiver
-			while(it<20) { //This way, all the datas are send, and at 
-			dataToShow = recepServor.receivedDatas2(); // processing of the received date
-			//To show data on the graph
-			lineChart.addDataSended(dataToShow); //make dataToShow a list?
-			it++;
+			while (it < 20) {
+				//
+				dataToShow = recepServor.receivedDatas2(); // processing of the received date
+				// To show data on the graph
+				lineChart.addDataSended(dataToShow); // this way, all the data are send in one go
+				// need to just select the last data to add to the series and make both the 
+				// receiver and graph run simultaneously
+				it++;
 			}
 			recepServor.close(); // we close the socket
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		//To do the graph
-		//lineChart.addDataSended(dataToShow);
+
+		// To do the graph
+		// lineChart.addDataSended(dataToShow);
 		g.getChildren().add(lineChart); // we add our graph to our window
-        
-		//To receive data:
-		/*try {
-			//DatagramSocket recep = new DatagramSocket();
-			//int numPort = recep.getLocalPort();
-			Receveur receiveServer = new Receveur();
-			//receiveServer.reception(recep, 32, stop);
-			receiveServer.reception();
-			//msgSend.envoi("10.10.27.42", numPort, message4);
-		}catch(Exception e) {
-			e.printStackTrace();
-		}*/
-        
-		
+
+		// To receive data:
+		/*
+		 * try { 
+		 * //DatagramSocket recep = new DatagramSocket(); 
+		 * //int numPort = recep.getLocalPort(); 
+		 * Receptor receiveServer = new Receptor();
+		 * //receiveServer.reception(recep, 32, stop); 
+		 * receiveServer.reception();
+		 * //msgSend.envoi("10.10.27.42", numPort, message4);
+		 * } catch(Exception e) {
+		 * 	e.printStackTrace(); 
+		 * }
+		 */
+
 		return g;
 	}
-	
+
 }
