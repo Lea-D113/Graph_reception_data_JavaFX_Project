@@ -28,6 +28,12 @@ public class GraphInRealTime extends LineChart<String, Number> {
 	final int WINDOW_SIZE = 20;
 	ScheduledExecutorService scheduledExecutorService;
 
+	/**
+	 * Constructor to initialize the graph and add the buttons of the graph
+	 * @param String xlabel: the time for this graph
+	 * @param String ylabel: the type of data added
+	 * @param String graphTitle: title of the graph
+	 */
 	public GraphInRealTime(String xlabel, String ylabel, String graphTitle) {
 
 		super(new CategoryAxis(), new NumberAxis());
@@ -52,7 +58,7 @@ public class GraphInRealTime extends LineChart<String, Number> {
 			scheduledExecutorService.shutdownNow();
 		});
 
-		// Later, if thread doesn't work, to activate the receptor
+		// Later, if thread doesn't work, to activate the receptor, so not used for now
 		Button startReception = new Button("Active la réception");
 		startReception.setOnAction(action -> {
 			// scheduledExecutorService.shutdownNow();
@@ -61,6 +67,10 @@ public class GraphInRealTime extends LineChart<String, Number> {
 		});
 	}
 
+	/**
+	 * Methods to add random number as data to our graph (without returning anything)
+	 * and make the x axis the time axis
+	 */
 	public void addRandomNumberSeries() {
 		// defining a series to display data
 		XYChart.Series<String, Number> series = new XYChart.Series<>();
@@ -93,6 +103,11 @@ public class GraphInRealTime extends LineChart<String, Number> {
 
 	}
 
+	/**
+	 * Methods to add the parameter of our as a data to our graph
+	 * and make the x axis the time axis
+	 * @param dataSended
+	 */
 	public void addDataSended(String dataSended) {
 		// defining a series to display data
 		XYChart.Series<String, Number> seriesSend = new XYChart.Series<>();

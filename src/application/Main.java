@@ -49,11 +49,7 @@ import javafx.scene.input.MouseEvent;
 
 /**
  * Main class with a graphics windows, with tools bars and containing:
- * - a text
- * - a line
- * - an image
- * - a password field
- * - a graph of data
+ * - a graph of data to show data sended (not working yet)
  * @author Léa D
  *
  */
@@ -75,13 +71,14 @@ public class Main extends Application{
 	}
 	
 	// To create "object" in our graphics window
+	
 	private Node createToolbar() { // To create a tool bar with a button "New", "Open",
 		// a separation, and a button "Clean"
 		return new ToolBar(new Button("New"), new Button("Open"), new Separator(),new Button("Clean"));
 	}
 
 	private Node createStatusbar(){
-	HBox statusbar = new HBox(); //To create a bar with a text compartment for the Name
+	HBox statusbar = new HBox(); //To create a bar with a text compartment for a Name (author name)
 	statusbar.getChildren().addAll(new Label("Name: "),
 		new TextField ( "  Mobydick  "));
 	return statusbar;
@@ -91,7 +88,7 @@ public class Main extends Application{
 	private Node createMainContent() throws IOException{
 		Group g = new Group(); //To add each element in this group to show them
 		
-		// Messages predefined to send to other
+		// Different type of predefined messages to send
 		String message1 = "Je cherche du miel...";
 		String message2 = "Bonjour! Comment allez-vous?";
 		String message3 = "Je veux du miel";
@@ -119,13 +116,17 @@ public class Main extends Application{
 		}*/
 		
 		
-		//Initialization of the receptor:
+		//Initialization of the receiver:
 		Receptor recepServor;
 		String dataToShow = null;
-		String dataTest = "3.14";
+		String dataTest = "3.14"; //Random initialization to not have a problem with a data = null
 		int it = 0;
 		//To do the graph
 		GraphInRealTime lineChart = new GraphInRealTime("Time/s", "Grades", "Grades sended");
+		
+		//g.getChildren().add(lineChart); //test to see if the graph show even when the receiver run
+		// test fail, nothing change if this line is either before or after the lines to add data
+		
 		/*lineChart.addDataSended(dataTest);
 		while(it<10) {
 			//Integer randomt = ThreadLocalRandom.current().nextInt(10);
@@ -135,22 +136,23 @@ public class Main extends Application{
 			it++;
 		}*/
 		try {
-			recepServor = new Receptor(32); // We open our receptor
+			recepServor = new Receptor(32); // We open our receiver
+			while(it<20) { //This way, all the datas are send, and at 
 			dataToShow = recepServor.receivedDatas2(); // processing of the received date
 			//To show data on the graph
 			lineChart.addDataSended(dataToShow); //make dataToShow a list?
+			it++;
+			}
 			recepServor.close(); // we close the socket
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
-		/*//To do the graph
-		GraphInRealTime lineChart = new GraphInRealTime("Time/s", "Grades", "Grades sended");
-		lineChart.addDataSended(dataToShow);*/
-        //g.getChildren().addAll(lineChart,stop);
+		//To do the graph
+		//lineChart.addDataSended(dataToShow);
 		g.getChildren().add(lineChart); // we add our graph to our window
         
-		//Pour recevoir:
+		//To receive data:
 		/*try {
 			//DatagramSocket recep = new DatagramSocket();
 			//int numPort = recep.getLocalPort();

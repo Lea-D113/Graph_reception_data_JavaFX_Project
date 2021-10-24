@@ -14,7 +14,7 @@ import java.net.DatagramPacket;
  * - the constructor Emettor, to initialize variables and informations to send the datas (adress, port)
  * @param:
  * 		String hostname: adresse or website to which we send the data
- * 		int port: to which port we send our data
+ * 		int port: the UDP port we send our data (make sure this port matches that of the receiver)
  * - the send method to send data (the message) to an adress and port specified in the constructor
  * @param:
  * 		String message: message that will be send
@@ -29,6 +29,13 @@ public class Emettor {
 	//String hostname = "djxmmx.net";
 	//int port = 17;
 
+	/**
+	 * Constructor of the transmitter: initialization of the address and port to 
+	 * which we will send the data
+	 * @param hostname: address of the receiver
+	 * @param port: UDP port of the receiver to which we will send the data
+	 * @throws IOException
+	 */
 	public Emettor(String hostname, int port) throws IOException{
 		
 		// Initialization of our variables
@@ -38,6 +45,12 @@ public class Emettor {
 		
 	}
 	
+	/**
+	 * Method to send the data in our parameter to to computer with the address
+	 * and to the port initialized in the constructor
+	 * @param message: type: String, data send to our receiver (figures like float stringified for example)
+	 * @throws IOException
+	 */
 	public void send(String message) throws IOException{
 		
 		//byte[] buffer = new byte[32]; //we fill it with our data
@@ -50,10 +63,18 @@ public class Emettor {
 
 	}
 	
+	/**
+	 * Method to close the DatagramSocket used to send our data
+	 */
 	public void close() {
 		socket.close(); // We close the socket
 	}
 	
+	/**
+	 * Main to send data locally or to another computer (use to test the class Emettor)
+	 * @param args
+	 * @throws Exception
+	 */
 	public static void main(String[] args) throws Exception {
 		
 		Emettor e = new Emettor("127.0.0.1", 54734); // initialization of the "transmitter"
